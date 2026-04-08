@@ -731,6 +731,19 @@ html, body {
         text-align: center;
         width: 100%;
         font-size: clamp(2.3rem, 6vw, 2.6rem);
+
+        /* RENDERING: Cormorant 300 precisa de antialiasing explícito no mobile
+           Sem isso, LCD com subpixel hinting pode deixar as letras "esfareladas" */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        /* ANCHORING: text-shadow sutil — ancora o H1 contra a imagem de fundo
+           zona do título tem overlay ~0.52 — imagem transpassa levemente
+           sombra suave neutraliza variações de brilho na foto sem parecer artificial */
+        text-shadow: 0 2px 32px rgba(0, 0, 0, 0.52);
+
+        /* LINE-HEIGHT: sentence case com descenders pede mais respiro que uppercase */
+        line-height: 1.18;
     }
 
     /* 3. Título: line-block e line-offset bloqueiam em novas linhas no mobile
@@ -763,30 +776,33 @@ html, body {
     .hero-description {
         text-align: center;
 
-        /* NITIDEZ & CONTRASTE
-           #e2ddd8: off-white quente — mais visível que #a3a3a3,
-           sem brigar com o H1 branco, ecoa o --color-sand do design system */
-        color: #e2ddd8;
+        /* COR REFINADA: #ede8e3 mais luminoso que #e2ddd8
+           menos quente = maior contraste percebido em LCD e brilho médio
+           ainda dentro da paleta warm off-white do design system */
+        color: #ede8e3;
 
-        /* PESO: 400 explícito com antialiasing = precisão editorial */
+        /* PESO: 400 + antialiasing = nitidez editorial */
         font-weight: 400;
 
         /* LEITURA CONFORTÁVEL */
         font-size: 1rem;
         line-height: 1.72;
-        letter-spacing: 0.012em; /* micro tracking — abre levemente no mobile */
+        letter-spacing: 0.012em;
 
-        /* RENDERING PREMIUM — padrão Apple/Stripe */
+        /* RENDERING PREMIUM */
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
 
-        /* SOMBRA DIFUSA — âncora visual contra a imagem de fundo
-           raio longo (20px), baixíssima opacidade: pop sem artifício */
-        text-shadow: 0 1px 20px rgba(0, 0, 0, 0.55);
+        /* SOMBRA MAIS EFETIVA: opacidade 0.55 → 0.68
+           ainda invísível ao usuário, mas protege melhor em brilho médio
+           e cenários com reflexo na tela */
+        text-shadow: 0 1px 24px rgba(0, 0, 0, 0.68);
 
-        /* COMPRIMENTO IDEAL DE LEITURA MOBILE */
-        max-width: 36ch;
+        /* COMPRIMENTO IDEAL: 40ch permite 2 linhas naturais
+           com texto atual ~ 79 chars = 40+39 = 2 linhas ✓
+           era 36ch que forçava 3 linhas no mobile */
+        max-width: 40ch;
         margin-left: auto;
         margin-right: auto;
     }
