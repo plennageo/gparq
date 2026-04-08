@@ -317,8 +317,8 @@ html, body {
     object-fit: cover;
     object-position: 60% center; /* Frame o lustre e a bancada de mármore */
     transform: scale(1.05);
-    /* REFINADO: Imagem mais nítida, vibrante e presente */
-    filter: brightness(1.1) contrast(1.08) saturate(1.15);
+    /* Neutro: remove boost artificial de brightness, mantém contraste e saturação */
+    filter: brightness(1.0) contrast(1.08) saturate(1.15);
     transition: transform 0.8s ease;
 }
 
@@ -747,15 +747,27 @@ html, body {
         width: 100%;
     }
 
-    /* 5. Overlay Vertical — suavizado para destacar mais a foto no mobile */
+    /* 5. Overlay mobile refinado — layer dupla para proteção precisa da zona de leitura */
     .editorial-overlay {
-        background: linear-gradient(to bottom, 
-            var(--color-bg) 0%, 
-            rgba(5, 5, 5, 0.85) 18%,
-            rgba(5, 5, 5, 0.45) 40%, 
-            rgba(5, 5, 5, 0.25) 65%,
-            rgba(5, 5, 5, 0.35) 100%
-        ) !important;
+        background:
+            /* Gradiente vertical principal — ramp suave sobre toda a tela */
+            linear-gradient(to bottom,
+                var(--color-bg) 0%,           /* topo: fundo sólido */
+                rgba(5, 5, 5, 0.88) 16%,     /* below header */
+                rgba(5, 5, 5, 0.52) 36%,     /* zona do título — imagem respira */
+                rgba(5, 5, 5, 0.48) 54%,     /* entrada do subtítulo */
+                rgba(5, 5, 5, 0.56) 68%,     /* ZONA DESCRIÇÃO — era 0.25, agora 0.56 */
+                rgba(5, 5, 5, 0.42) 86%,     /* retorno gradual */
+                rgba(5, 5, 5, 0.28) 100%     /* rodapé */
+            ),
+            /* Camada focal: radial centrado exatamente na zona da descrição
+               Escurecimento sutil e circular — invisível mas eficaz */
+            radial-gradient(
+                ellipse 100% 28% at 50% 68%,
+                rgba(0, 0, 0, 0.28) 0%,
+                transparent 100%
+            )
+        !important;
     }
 
     .scroll-indicator {
