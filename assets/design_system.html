@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<title>Unified Architecture Design System 3.0</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bayon&family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Manrope:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   MASTER DESIGN SYSTEM 3.0 — UNIFIED LUXURY EDITION
+   Fusion: Zenvira (Glass & Interaction) + Marmaris (Editorial & Spacing)
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* Color Primitives */
+  --z-abyss: #050505;
+  --z-dark: #0b0f14;
+  --z-surface: rgba(255,255,255,0.03);
+  --z-border: rgba(255,255,255,0.06);
+  --z-white: #ffffff;
+  --z-muted: rgba(255,255,255,0.45);
+  
+  /* Semantic Accents: Fusion of both systems */
+  --c-marmaris-brown: #8b7355;      /* Heritage Accent */
+  --c-marmaris-sand: #e3d3c4;       /* Soft Light */
+  --c-zenvira-green: #66b998;       /* Tech/Nature Accent */
+  --c-zenvira-glow: rgba(102,185,152,0.15);
+  
+  /* Typography Scale */
+  --f-display: "Bayon", sans-serif;
+  --f-heading: "Manrope", sans-serif;
+  --f-body-alt: "Poppins", sans-serif;
+  --f-body: "Lato", sans-serif;
+  
+  /* Utilities */
+  --ease-elastic: cubic-bezier(.16,1,.3,1);
+  --ease-in-out: cubic-bezier(.65,0,.35,1);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--z-abyss);
+  color: var(--z-white);
+  font-family: var(--f-body);
+  overflow-x: hidden;
+  margin: 0;
+  display: flex;
+  scroll-behavior: smooth;
+}
+
+/* ── LAYOUT (Marmaris Sidebar + Zenvira Fluidity) ────────────── */
+.ds-sidebar {
+  width: 280px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  background: rgba(8, 8, 8, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid var(--z-border);
+  padding: 3rem 2rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-sidebar-brand {
+  margin-bottom: 3rem;
+  font-family: var(--f-display);
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: var(--z-white);
+}
+
+.ds-menu-link {
+  color: #888;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.8rem 0;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  font-family: var(--f-heading);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.ds-menu-link:hover, .ds-menu-link.active {
+  color: var(--z-white);
+  transform: translateX(5px);
+}
+
+.ds-menu-link::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--c-marmaris-brown);
+  margin-right: 12px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.ds-menu-link:hover::before, .ds-menu-link.active::before {
+  opacity: 1;
+}
+
+.ds-main {
+  flex: 1;
+  padding: 0;
+  position: relative;
+}
+
+/* ── ANIMATED BACKGROUND (Zenvira Style) ─────────────────────── */
+.ds-bg-fixed {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.ds-bg-orb {
+  position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35;
+}
+.ds-bg-orb.a {
+  width: 50vw; height: 50vw; top: -15%; right: -10%;
+  background: radial-gradient(circle, rgba(139, 115, 85, 0.15), transparent 70%); /* Marmaris Glow */
+  animation: orbFloat 18s ease-in-out infinite alternate;
+}
+.ds-bg-orb.b {
+  width: 60vw; height: 60vw; bottom: -20%; left: -15%;
+  background: radial-gradient(circle, var(--c-zenvira-glow), transparent 60%); /* Zenvira Glow */
+  animation: orbFloat 22s ease-in-out infinite alternate-reverse;
+}
+.ds-bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+@keyframes orbFloat {
+  0% { transform: translate(0,0) scale(1); }
+  100% { transform: translate(40px,60px) scale(1.15); }
+}
+
+/* ── SECTION WRAPPER ────────────────────────────────────────── */
+.ds-section {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px; 
+  margin: 0 auto; 
+  padding: 100px 5%;
+  border-top: 1px solid var(--z-border);
+}
+.ds-section-label {
+  font-family: var(--f-body-alt); font-size: 0.75rem; text-transform: uppercase;
+  letter-spacing: 5px; color: var(--c-marmaris-brown); margin-bottom: 12px;
+}
+.ds-section-title {
+  font-family: var(--f-heading); font-size: clamp(2.5rem,4vw,3.5rem); font-weight: 300;
+  letter-spacing: -1px; margin: 0 0 60px;
+  display: flex; align-items: center; gap: 24px;
+}
+.ds-section-title::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--z-border), transparent);
+}
+
+/* ── GLASS CARD (Unified Engine) ──────────────────────────────── */
+.ds-glass {
+  background: var(--z-surface); border: 1px solid var(--z-border);
+  border-radius: 24px; backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform .45s var(--ease-elastic), border-color .4s, background .4s;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.ds-glass::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 40%);
+  pointer-events: none;
+}
+.ds-glass:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+}
+
+/* ── SCROLL REVEAL ────────────────────────────────────────────── */
+.ds-reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity .8s var(--ease-elastic), transform .8s var(--ease-elastic);
+}
+.ds-reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── META CODE BLOCK ──────────────────────────────────────────── */
+.ds-meta {
+  font-family: "Courier New", monospace; font-size: 0.8rem; color: var(--z-muted);
+  line-height: 1.7; background: rgba(0,0,0,0.5); padding: 18px 20px;
+  border-radius: 12px; margin-top: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.ds-meta b { color: var(--c-marmaris-sand); font-weight: 500; }
+
+/* ═══════════════════ 1. HERO (Hybrid Setup) ════════════════════ */
+.ds-hero {
+  min-height: 100vh; display: flex; align-items: center;
+  position: relative; padding: 0 5%; overflow: hidden; z-index: 2;
+}
+.ds-hero-content { position: relative; z-index: 3; width: 100%; max-width: 900px; padding-top: 10vh; }
+.ds-hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--f-body-alt); font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--c-marmaris-brown); margin-bottom: 24px;
+  background: rgba(139, 115, 85, 0.1); padding: 6px 16px; border-radius: 100px;
+  border: 1px solid rgba(139, 115, 85, 0.2);
+}
+.ds-hero-h1 {
+  font-family: var(--f-display);
+  font-size: clamp(4.5rem, 10vw, 12rem);
+  line-height: 0.9; text-transform: uppercase; margin: 0;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+  transition: all .5s ease;
+  cursor: default;
+}
+.ds-hero-h1:hover {
+  color: var(--z-white);
+  -webkit-text-stroke-color: var(--z-white);
+  text-shadow: 0 0 60px rgba(255,255,255,0.2);
+}
+.ds-hero-h1 .filled {
+  font-family: var(--f-heading);
+  display: block; color: var(--z-white); -webkit-text-stroke: 0;
+  margin-left: 5vw; font-size: 0.45em; font-weight: 300; text-transform: none; letter-spacing: -2px;
+}
+.ds-hero-desc {
+  font-family: var(--f-body); font-size: 1.15rem; font-weight: 300;
+  color: var(--z-muted); max-width: 520px; margin-top: 36px; line-height: 1.7;
+}
+
+.ds-hero-img-frame {
+  position: absolute; right: 4%; top: 50%; transform: translateY(-50%);
+  width: 450px; height: 600px; border-radius: 300px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1); z-index: 1; opacity: 0.7;
+  box-shadow: 0 0 100px rgba(0,0,0,0.8);
+}
+.ds-hero-img-frame img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(80%) contrast(1.1);
+  transition: filter .8s ease, transform .6s var(--ease-elastic);
+}
+.ds-hero-img-frame:hover img { filter: grayscale(0%) contrast(1); transform: scale(1.05); }
+
+/* Cinematic Slide Ticker (Zenvira Tech) */
+.ds-hero-ticker {
+  position: absolute; bottom: 0; left: 0; right: 0; overflow: hidden;
+  border-top: 1px solid var(--z-border); padding: 18px 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
+}
+.ds-hero-ticker-track {
+  display: flex; gap: 60px; white-space: nowrap;
+  animation: tickerSlide 40s linear infinite;
+}
+@keyframes tickerSlide { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.ds-hero-ticker-item {
+  font-family: var(--f-heading); font-weight: 500; font-size: 0.95rem;
+  text-transform: uppercase; letter-spacing: 3px; color: var(--z-muted);
+  display: flex; align-items: center; gap: 16px;
+}
+
+/* ═══════════════ 2. TYPOGRAPHY ═════════════════════════════ */
+.ds-type-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  padding: 40px 0; border-bottom: 1px solid var(--z-border);
+  align-items: center;
+}
+
+/* ═══════════════ 3. COLORS ═════════════════════════════════ */
+.ds-color-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 30px;
+}
+.ds-color-swatch { height: 140px; border-radius: 12px; margin-bottom: 16px; position: relative; overflow:hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);}
+.ds-color-swatch::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.4));
+}
+.ds-color-info { padding: 4px; }
+.ds-color-name { font-family: var(--f-heading); font-weight: 500; font-size: 1.1rem; margin-bottom: 8px; }
+.ds-color-codes { font-family: monospace; font-size: 0.8rem; color: var(--z-muted); line-height: 1.8; }
+
+/* ═══════════════ 4. UI COMPONENTS ══════════════════════════ */
+.ds-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--f-heading); font-weight: 500; font-size: 0.9rem;
+  text-decoration: none; padding: 16px 32px; border-radius: 100px;
+  transition: all 0.4s var(--ease-elastic); cursor: pointer;
+  position: relative; overflow: hidden;
+}
+.ds-btn-primary {
+  background: var(--z-white); color: var(--z-abyss); border: 1px solid var(--z-white);
+}
+.ds-btn-primary:hover { transform: scale(1.05); background: var(--c-marmaris-sand); border-color: var(--c-marmaris-sand); }
+
+.ds-btn-outline {
+  background: transparent; color: var(--z-white); border: 1px solid var(--z-border);
+}
+.ds-btn-outline:hover { border-color: var(--z-white); background: rgba(255,255,255,0.05); }
+
+/* ═══════════════ RESPONSIVE ═════════════════════════════════ */
+@media (max-width: 991px) {
+  body { flex-direction: column; }
+  .ds-sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--z-border); padding: 1.5rem; flex-direction: row; justify-content: space-between; align-items: center; }
+  .ds-sidebar-brand { margin: 0; font-size: 1.5rem; }
+  .ds-sidebar nav { display: none; }
+  .ds-hero-img-frame { display: none; }
+  .ds-type-row { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR NAVIGATION -->
+<nav class="ds-sidebar">
+  <div class="ds-sidebar-brand">SYSTEM 3.0</div>
+  <nav style="display:flex; flex-direction:column; gap:10px;">
+    <a href="#hero" class="ds-menu-link active">00. Vision Hero</a>
+    <a href="#typography" class="ds-menu-link">01. Typography</a>
+    <a href="#colors" class="ds-menu-link">02. Materials Scale</a>
+    <a href="#components" class="ds-menu-link">03. UI Elements</a>
+  </nav>
+  <div style="margin-top:auto; font-size:0.75rem; color:#666;">v3.1 Fusion Core</div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="ds-main">
+
+  <!-- ANIMATED BACKGROUND -->
+  <div class="ds-bg-fixed">
+    <div class="ds-bg-orb a"></div>
+    <div class="ds-bg-orb b"></div>
+    <div class="ds-bg-grid"></div>
+  </div>
+
+  <!-- 00. HERO DEMO -->
+  <header class="ds-hero" id="hero">
+    <!-- Sculptural Image Frame -->
+    <div class="ds-hero-img-frame ds-reveal">
+      <img src="https://cdn.prod.website-files.com/68ca862ab7731d937b02a0a8/68cbc75b06c3a429da2a33ce_Modern%20Minimalist%20Kitchen.avif" alt="Architecture"/>
+    </div>
+
+    <div class="ds-hero-content">
+      <div class="ds-hero-eyebrow ds-reveal"><i class="ri-gem-line"></i> Fusion Architecture Library</div>
+      <h1 class="ds-hero-h1 ds-reveal">
+        Zenvira
+        <span class="filled">Marmaris Synthesis</span>
+      </h1>
+      <p class="ds-hero-desc ds-reveal">
+        A master pattern library combining the sculptural typography and glassmorphism of Zenvira with the elegant layout grids and deep color scales of Marmaris.
+      </p>
+      <div style="margin-top:40px" class="ds-reveal">
+        <a href="#typography" class="ds-btn ds-btn-primary" style="margin-right:15px;">Explore Tokens</a>
+        <a href="#components" class="ds-btn ds-btn-outline">View Components</a>
+      </div>
+    </div>
+
+    <!-- Ticker strip at bottom of hero -->
+    <div class="ds-hero-ticker">
+      <div class="ds-hero-ticker-track">
+        <div class="ds-hero-ticker-item">● Glassmorphism Dynamics</div>
+        <div class="ds-hero-ticker-item">● Sculptural Typography</div>
+        <div class="ds-hero-ticker-item">● Editorial Balance</div>
+        <div class="ds-hero-ticker-item">● Ambient Illuminations</div>
+        <div class="ds-hero-ticker-item">● High-End Finishes</div>
+        <div class="ds-hero-ticker-item">● Glassmorphism Dynamics</div>
+        <div class="ds-hero-ticker-item">● Sculptural Typography</div>
+        <div class="ds-hero-ticker-item">● Editorial Balance</div>
+        <div class="ds-hero-ticker-item">● Ambient Illuminations</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 01. TYPOGRAPHY -->
+  <section class="ds-section" id="typography">
+    <div class="ds-section-label ds-reveal">01. Structure</div>
+    <h2 class="ds-section-title ds-reveal">Typography Core</h2>
+
+    <div class="ds-glass ds-reveal" style="margin-bottom:40px;">
+      <div class="ds-type-row" style="border:none; padding:0;">
+        <div>
+          <h1 style="font-family: var(--f-display); font-size: 4rem; margin:0; line-height:1; font-weight:400; letter-spacing:1px; text-transform:uppercase;">Bayon</h1>
+          <p style="font-family: var(--f-heading); font-size:1.5rem; margin:10px 0 0; color:var(--z-muted);">Manrope Heading Support</p>
+        </div>
+        <div class="ds-meta" style="margin:0;">
+          <b>Primary Display:</b> Bayon (Zenvira Heritage)<br>
+          <b>Primary Headings:</b> Manrope (Marmaris Heritage)<br>
+          <b>Usage:</b> Hero titles, section breaking, luxury numbering.
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-glass ds-reveal">
+      <div class="ds-type-row" style="border:none; padding:0;">
+        <div>
+          <p style="font-family: var(--f-body); font-size: 1.25rem; margin:0; line-height:1.6;">Lato &amp; Poppins serve as the foundational bedrock for readability, providing geometric elegance without overpowering structural displays.</p>
+        </div>
+        <div class="ds-meta" style="margin:0;">
+          <b>Body Base:</b> Lato 400/300<br>
+          <b>Body Alt:</b> Poppins 300/400<br>
+          <b>Usage:</b> Long form reading, component labels, functional UI.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02. COLORS -->
+  <section class="ds-section" id="colors">
+    <div class="ds-section-label ds-reveal">02. Aesthetics</div>
+    <h2 class="ds-section-title ds-reveal">Material & Light</h2>
+
+    <div class="ds-color-grid">
+      <!-- Dark Modes -->
+      <div class="ds-reveal">
+        <div class="ds-color-swatch" style="background:var(--z-abyss)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Abyss Vault</div>
+          <div class="ds-color-codes">HEX #050505<br>Role: Hero & Body BG</div>
+        </div>
+      </div>
+
+      <div class="ds-reveal">
+        <div class="ds-color-swatch" style="background:var(--z-dark)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Surface Dark</div>
+          <div class="ds-color-codes">HEX #0B0F14<br>Role: Base depth</div>
+        </div>
+      </div>
+      
+      <!-- Accents -->
+      <div class="ds-reveal">
+        <div class="ds-color-swatch" style="background:var(--c-marmaris-brown)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Heritage Brown</div>
+          <div class="ds-color-codes">HEX #8B7355<br>Role: Luxury Warmth Accent</div>
+        </div>
+      </div>
+
+      <div class="ds-reveal">
+        <div class="ds-color-swatch" style="background:var(--c-zenvira-green)"></div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Bio Green</div>
+          <div class="ds-color-codes">HEX #66B998<br>Role: Natural/Tech Accent</div>
+        </div>
+      </div>
+
+      <!-- Glass UI -->
+      <div class="ds-reveal">
+        <div class="ds-color-swatch" style="background:var(--z-surface); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; border: 1px solid var(--z-border);">
+          <span style="font-size:0.8rem; color:var(--z-muted);">Gaussian Layer</span>
+        </div>
+        <div class="ds-color-info">
+          <div class="ds-color-name">Frosted Glass</div>
+          <div class="ds-color-codes">BG rgba(255,255,255,0.03)<br>Role: Component Base</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03. COMPONENTS -->
+  <section class="ds-section" id="components" style="padding-bottom:150px;">
+    <div class="ds-section-label ds-reveal">03. UI</div>
+    <h2 class="ds-section-title ds-reveal">Interactive Elements</h2>
+
+    <div class="ds-glass ds-reveal" style="display:flex; flex-wrap:wrap; gap:40px; align-items:center;">
+      
+      <!-- Buttons -->
+      <div style="flex:1; min-width:300px;">
+        <h4 style="font-family:var(--f-heading); margin-bottom:20px; font-weight:400; color:var(--c-marmaris-sand);">Action Buttons</h4>
+        <div style="display:flex; gap:20px; flex-wrap:wrap;">
+          <button class="ds-btn ds-btn-primary">Reserve Consultation</button>
+          <button class="ds-btn ds-btn-outline">View Portfolio</button>
+        </div>
+      </div>
+
+      <!-- Badges -->
+      <div style="flex:1; min-width:300px;">
+         <h4 style="font-family:var(--f-heading); margin-bottom:20px; font-weight:400; color:var(--c-marmaris-sand);">Status Tags</h4>
+         <div style="display:flex; gap:15px; flex-wrap:wrap;">
+           <span style="background:rgba(139,115,85,0.15); color:var(--c-marmaris-brown); border:1px solid rgba(139,115,85,0.3); padding:8px 20px; border-radius:100px; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Heritage</span>
+           <span style="background:rgba(102,185,152,0.15); color:var(--c-zenvira-green); border:1px solid rgba(102,185,152,0.3); padding:8px 20px; border-radius:100px; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Sustainable</span>
+         </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- SIMPLE SCROLL REVEAL LOGIC -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const elements = document.querySelectorAll('.ds-reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    elements.forEach(el => observer.observe(el));
+  } else {
+    elements.forEach(el => el.classList.add('visible'));
+  }
+
+  // Smooth scroll links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+});
+</script>
+
+</body>
+</html>
