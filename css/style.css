@@ -706,10 +706,36 @@ html, body {
         max-width: 480px;
     }
 
+    /* 5. Subtítulo — refinamento tipográfico premium para mobile */
     .hero-description {
         text-align: center;
+
+        /* NITIDEZ & CONTRASTE
+           #e2ddd8: off-white quente — mais visível que #a3a3a3,
+           sem brigar com o H1 branco, ecoa o --color-sand do design system */
+        color: #e2ddd8;
+
+        /* PESO: 400 explícito com antialiasing = precisão editorial */
+        font-weight: 400;
+
+        /* LEITURA CONFORTÁVEL */
         font-size: 1rem;
-        line-height: 1.7;
+        line-height: 1.72;
+        letter-spacing: 0.012em; /* micro tracking — abre levemente no mobile */
+
+        /* RENDERING PREMIUM — padrão Apple/Stripe */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+
+        /* SOMBRA DIFUSA — âncora visual contra a imagem de fundo
+           raio longo (20px), baixíssima opacidade: pop sem artifício */
+        text-shadow: 0 1px 20px rgba(0, 0, 0, 0.55);
+
+        /* COMPRIMENTO IDEAL DE LEITURA MOBILE */
+        max-width: 36ch;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .hero-cta-group {
