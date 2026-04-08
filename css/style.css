@@ -747,6 +747,27 @@ html, body {
         width: 100%;
     }
 
+    /* 6. Status "Agenda Aberta" — refinamento tipográfico mobile
+       Micro-elevação do conjunto (dot + texto) para alinhamento premium com o CTA */
+    .availability-status {
+        /* Cor: off-white quente — mais visível que #a3a3a3,
+           discreta, não compete com H1 ou CTA */
+        color: #cdc8c1;
+
+        /* Peso 500: melhor rendering em mobile sem parecer bold */
+        font-weight: 500;
+
+        /* Tracking refinado para caixa alta no mobile */
+        letter-spacing: 1.6px;
+
+        /* Rendering premium */
+        -webkit-font-smoothing: antialiased;
+
+        /* Microelevação ~3px — sobe o conjunto status inteiro,
+           dot verde e texto juntos, mantendo alinhamento perfeito */
+        transform: translateY(-3px);
+    }
+
     /* 5. Overlay mobile refinado — layer dupla para proteção precisa da zona de leitura */
     .editorial-overlay {
         background:
