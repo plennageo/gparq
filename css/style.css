@@ -417,7 +417,8 @@ html, body {
 
 .editorial-header {
     width: 100%;
-    padding-bottom: 2vh;
+    /* Refinado: padding-bottom zero — gap controlado apenas pelo content-block */
+    padding-bottom: 0;
     pointer-events: none;
 }
 
@@ -477,8 +478,9 @@ html, body {
     pointer-events: auto;
     display: flex;
     flex-direction: column;
-    padding-top: 2rem;
-    margin-top: 1rem;
+    /* Refinado: gap total reduzido para ~1.25rem — respiro editorial sem exagero */
+    padding-top: 1.25rem;
+    margin-top: 0;
     margin-left: 8%; /* Premium indentation */
     max-width: 650px;
     border-top: 1px solid rgba(255,255,255,0.1); /* Elegant subtle divider line */
@@ -670,7 +672,8 @@ html, body {
         align-items: center;
         width: 100%;
         max-width: 500px;
-        margin-bottom: 3vh;
+        /* Refinado: 1rem — respiro mínimo entre H1 e divider do content-block */
+        margin-bottom: 1rem;
     }
 
     /* Badge — respiro generoso abaixo para hierarquia premium com o título */
@@ -694,10 +697,11 @@ html, body {
     /* 4. Bloco de conteúdo centralizado com espaçamento refinado */
     .editorial-content-block { 
         margin-left: 0 !important; 
-        margin-top: 2rem; 
-        padding-top: 2.5rem; 
+        /* Refinado: gap total mobile = 1rem (header) + 1.25rem (padding) ≈ 36px — premimum e coeso */
+        margin-top: 0; 
+        padding-top: 1.25rem; 
         align-items: center;
-        border-top: 1px solid rgba(255,255,255,0.05); /* Linha sutil para manter o estilo */
+        border-top: 1px solid rgba(255,255,255,0.05);
         width: 100%;
         max-width: 480px;
     }
