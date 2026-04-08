@@ -658,8 +658,8 @@ html, body {
         align-items: center !important; 
         justify-content: flex-start; 
         text-align: center !important;
-        /* UI FIX: Ajuste fino para subir o conteúdo: mínimo de 100px para segurança do header, alvo de 16vh para dinamismo */
-        padding: clamp(100px, 16vh, 140px) 6% 6rem; 
+        /* UI: Badge mais alto — padding-top reduzido para aproximar do header (safe area + respiro editorial) */
+        padding: clamp(72px, 10vh, 100px) 6% 6rem;
         min-height: 100vh;
     }
 
@@ -669,8 +669,13 @@ html, body {
         flex-direction: column;
         align-items: center;
         width: 100%;
-        max-width: 500px; /* Evita que o título fique largo demais em telas médias */
+        max-width: 500px;
         margin-bottom: 3vh;
+    }
+
+    /* Badge — respiro generoso abaixo para hierarquia premium com o título */
+    .editorial-header .badge.eyebrow {
+        margin-bottom: 2.4rem;
     }
 
     /* 3. Título com quebras equilibradas */
