@@ -281,7 +281,9 @@ html, body {
 ========================================= */
 .hero-editorial {
     position: relative;
-    min-height: 100vh;
+    /* Layer 1: DVH — soluciona o iOS Safari address-bar collapsing */
+    min-height: 100vh;    /* fallback legacy */
+    min-height: 100dvh;   /* modern: dynamic viewport height */
     display: flex;
     align-items: center;
     background: transparent;
@@ -295,7 +297,9 @@ html, body {
     top: 0;
     right: 0;
     width: 65vw;
-    height: 100vh;
+    /* Layer 2: SVH para imagem — conservador (menor viewport possível) */
+    height: 100vh;    /* fallback */
+    height: 100svh;   /* cobertura total mesmo com address bar */
     z-index: 1;
     overflow: hidden;
     /* Sophisticated mask curve for ultimate smoothness */
@@ -390,11 +394,14 @@ html, body {
     width: 100%;
     max-width: 1700px;
     margin: 0 auto;
-    padding: 120px 4% 4rem;
+    /* Layer 3: Padding fluido — top respira com viewport, bottom adaptativo */
+    padding: clamp(100px, 10vh, 140px) 4% clamp(3rem, 5vh, 5rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* DVH match para alinhar com .hero-editorial */
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 /* LEAN ENTRANCE ANIMATIONS (Pure CSS) */
@@ -647,22 +654,30 @@ html, body {
     
     .editorial-image-wrapper { 
         width: 100vw; 
+        /* Layer 4: DVH no mobile — imagem cobre toda a tela dinâmica */
         height: 100vh;
+        height: 100dvh;
         /* Máscara vertical para suavizar o rodapé */
         mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
         -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
     }
     
-    /* 1. Alinhamento Central e Respiro Editorial Superior (Padrão Sênior) */
+    /* 1. Container mobile: padding fluido + DVH + safe-area para notch */
     .editorial-container { 
         display: flex; 
         flex-direction: column;
         align-items: center !important; 
         justify-content: flex-start; 
         text-align: center !important;
-        /* UI: Badge mais alto — padding-top reduzido para aproximar do header (safe area + respiro editorial) */
-        padding: clamp(72px, 10vh, 100px) 6% 6rem;
+        /* Layer 5: Espaçamento fluido — top respira com smart viewport height
+           bottom adaptativo: reduz em telas curtas sem quebrar em telas altas */
+        padding: clamp(72px, 10svh, 100px) 6% clamp(2rem, 5svh, 4.5rem);
+        /* Safe-area: compensa notch do iPhone acima do padding base */
+        padding-top: max(clamp(72px, 10svh, 100px), calc(clamp(72px, 10svh, 100px) + env(safe-area-inset-top, 0px)));
+        padding-bottom: max(clamp(2rem, 5svh, 4.5rem), calc(clamp(2rem, 5svh, 4.5rem) + env(safe-area-inset-bottom, 0px)));
+        /* DVH: casar com a altura real da viewport no mobile */
         min-height: 100vh;
+        min-height: 100dvh;
     }
 
     /* 2. Cabeçalho centralizado (Badge + Título) */
@@ -793,6 +808,55 @@ html, body {
 
     .scroll-indicator {
         display: none;
+    }
+}
+
+
+/* =================================================================
+   LAYER 6: SHORT-SCREEN — Landscape mobile + iPhone SE landscape
+   Target: qualquer tela com height < 660px (ex: iPhone SE landscape,
+   Android landscape, viewport reduzida com teclado virtual)
+   Garante que NENHUM conteúdo seja cortado em viewports curtas.
+================================================================= */
+@media screen and (max-height: 660px) and (max-width: 860px) {
+
+    /* H1 comprime suavemente — mantém impacto sem estourar */
+    .hero-title {
+        font-size: clamp(1.75rem, 4.5vw, 2.4rem);
+        line-height: 1.08;
+    }
+
+    /* Badge com menos espaçamento inferior */
+    .editorial-header .badge.eyebrow {
+        margin-bottom: 1.2rem;
+    }
+
+    /* Container: top e bottom comprimidos */
+    .editorial-container {
+        padding: clamp(58px, 9svh, 80px) 6% clamp(1.5rem, 3svh, 2.5rem) !important;
+        padding-top: max(clamp(58px, 9svh, 80px), calc(58px + env(safe-area-inset-top, 0px))) !important;
+    }
+
+    /* Header: menos margem para economizar espaço vertical */
+    .editorial-header {
+        margin-bottom: 0.6rem !important;
+    }
+
+    /* Content block comprimido */
+    .editorial-content-block {
+        padding-top: 0.8rem !important;
+    }
+
+    /* Descrição um pouco menor para caber */
+    .hero-description {
+        font-size: 0.9rem !important;
+        line-height: 1.55 !important;
+        max-width: 42ch !important;
+    }
+
+    /* CTA group: gap reduzido */
+    .hero-cta-group {
+        gap: 1rem !important;
     }
 }
 
