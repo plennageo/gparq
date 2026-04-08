@@ -479,6 +479,22 @@ html, body {
     padding-left: 4%;
 }
 
+/* Variante italic inline — permanece na mesma linha (ex: FINALMENTE, em casa.) */
+.hero-title .line-warm {
+    font-family: var(--font-body);
+    font-style: italic;
+    color: var(--color-sand);
+    text-transform: none;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    /* inline: compartilha a linha com o texto anterior */
+}
+
+/* Linha seguinte sem indentação — inicia novo bloco no ritmo tipográfico */
+.hero-title .line-block {
+    display: block;
+}
+
 .editorial-content-block {
     position: relative;
     z-index: 3;
@@ -702,11 +718,18 @@ html, body {
         width: 100%;
     }
 
-    .hero-title .line-italic, 
+    /* 3. Título: line-block e line-offset bloqueiam em novas linhas no mobile
+       line-warm permanece inline para manter 'FINALMENTE, em casa.' na mesma linha */
+    .hero-title .line-block,
     .hero-title .line-offset {
-        padding-left: 0 !important; 
+        padding-left: 0 !important;
         display: block;
-        margin: 0.5rem 0;
+        margin: 0.4rem 0;
+    }
+
+    /* line-warm: italic inline no mobile — segura com FINALMENTE, em uma linha */
+    .hero-title .line-warm {
+        display: inline;
     }
 
     /* 4. Bloco de conteúdo centralizado com espaçamento refinado */
