@@ -455,19 +455,11 @@ html, body {
 
 .hero-title {
     font-family: var(--font-heading);
-    /* Sentence case: clamp levemente maior que uppercase
-       Cormorant 300 lowercase é visualmente menor — compensamos com +0.3rem no topo */
-    font-size: clamp(2.7rem, 5.2vw, 5.8rem);
+    font-size: clamp(2.4rem, 5.5vw, 5.8rem);
     font-weight: 300;
-    /* Lowercase com descenders pede mais respiro vertical */
     line-height: 1.12;
-    /* Uppercase exige tracking agressivo para evitar colisão de glyfos
-       Sentence case é mais fluído — menos tracking, mais elegância editorial */
     letter-spacing: -0.5px;
     color: var(--color-text-primary);
-    /* SENTENCE CASE: text-transform removido — case definido diretamente no HTML
-       Esta é a escolha editorial de marcas como Architectural Digest, Dezeen,
-       estúdios de arquitetura boutique de alto padrão */
 }
 
 .hero-title .line-italic {
@@ -500,6 +492,16 @@ html, body {
 /* Linha seguinte sem indentação — inicia novo bloco no ritmo tipográfico */
 .hero-title .line-block {
     display: block;
+}
+
+/* "casa" — ênfase editorial sutil.
+   Itálico Cormorant + cor sand: temperatura emocional sem apelo publicitário.
+   O itálico num serif display é uma mudança de ânimo, não de hierarquia visual.
+   Sem font-weight change — 300 mantido para coerência com o bloco. */
+.hero-title .word-casa {
+    font-style: italic;
+    color: var(--color-sand);   /* #e3d3c4 — já no design system, quente e elegante */
+    letter-spacing: 0;          /* itálico flui melhor sem tracking negativo */
 }
 
 .editorial-content-block {
@@ -719,10 +721,16 @@ html, body {
         margin-bottom: 2.4rem;
     }
 
-    /* 3. Título com quebras equilibradas */
+    /* 3. Título com quebras equilibradas — font-size travado para garantir 3 linhas máximo
+       clamp(2.3rem, 6vw, 2.6rem): 
+         - 320px: 2.3rem = 36.8px (20 chars de "Finalmente, em casa." = ~272px < 282px ✓)
+         - 360px: 2.3rem = 36.8px (272px < 317px ✓)
+         - 375px: 2.3rem = 36.8px (272px < 330px, margem generosa ✓)
+         - 768px: 41.6px máximo — limita crescimento em tablet */
     .hero-title {
         text-align: center;
         width: 100%;
+        font-size: clamp(2.3rem, 6vw, 2.6rem);
     }
 
     /* 3. Título: line-block e line-offset bloqueiam em novas linhas no mobile
