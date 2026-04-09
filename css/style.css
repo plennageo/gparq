@@ -398,8 +398,9 @@ html, body {
     width: 100%;
     max-width: 1700px;
     margin: 0 auto;
-    /* Layer 3: Padding fluido — top respira com viewport, bottom adaptativo */
-    padding: clamp(100px, 10vh, 140px) 4% clamp(3rem, 5vh, 5rem);
+    /* Layer 3: Padding fluido — top com respiro generoso para evitar proximidade com header fixo
+       Aumento de ~20px no mínimo para garantir que o Hat (ARQUITETURA...) tenha ar visual */
+    padding: clamp(120px, 12vh, 160px) 4% clamp(3rem, 5vh, 5rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -699,11 +700,11 @@ html, body {
         align-items: center !important; 
         justify-content: flex-start; 
         text-align: center !important;
-        /* Layer 5: Espaçamento fluido — top respira com smart viewport height
-           bottom adaptativo: reduz em telas curtas sem quebrar em telas altas */
-        padding: clamp(72px, 10svh, 100px) 6% clamp(2rem, 5svh, 4.5rem);
-        /* Safe-area: compensa notch do iPhone acima do padding base */
-        padding-top: max(clamp(72px, 10svh, 100px), calc(clamp(72px, 10svh, 100px) + env(safe-area-inset-top, 0px)));
+        /* Layer 5: Espaçamento fluido mobile — top expandido para evitar colagem no header fixo 
+           mínimo de 90px garante respiro mesmo em telas pequenas (iPhone SE) */
+        padding: clamp(90px, 12svh, 120px) 6% clamp(2rem, 5svh, 4.5rem);
+        /* Safe-area: compensa notch do iPhone acima do padding base expandido */
+        padding-top: max(clamp(90px, 12svh, 120px), calc(clamp(90px, 12svh, 120px) + env(safe-area-inset-top, 0px)));
         padding-bottom: max(clamp(2rem, 5svh, 4.5rem), calc(clamp(2rem, 5svh, 4.5rem) + env(safe-area-inset-bottom, 0px)));
         /* DVH: casar com a altura real da viewport no mobile */
         min-height: 100vh;
