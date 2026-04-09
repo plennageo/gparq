@@ -398,9 +398,9 @@ html, body {
     width: 100%;
     max-width: 1700px;
     margin: 0 auto;
-    /* Layer 3: Padding fluido — Ajustado para 16px de gap real no desktop conforme solicitado.
-       Com header de ~72px, o mínimo de 88px garante o respiro ideal de 16px. */
-    padding: clamp(88px, 10vh, 140px) 4% clamp(3rem, 5vh, 5rem);
+    /* Layer 3: Padding fluido — Ajustado para 24px de gap real no desktop conforme solicitado.
+       Com header de ~72px, o mínimo de 96px garante o respiro ideal de 24px. */
+    padding: clamp(96px, 12vh, 150px) 4% clamp(3rem, 5vh, 5rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
