@@ -1161,8 +1161,8 @@ html, body {
 .s2-diff-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* Gap cinematográfico: separação sutil entre os painéis */
-    gap: 3px;
+    /* Separação editorial entre painéis: intencional, mensurável, premium */
+    gap: clamp(10px, 1.2vw, 16px);
 }
 .s2-diff-item {
     padding: 2.5rem 3rem 2.5rem 0;
@@ -1231,13 +1231,14 @@ html, body {
 
 /* ── Container do card cinemático ── */
 .s2-diff-item--cinematic {
-    padding: 0;                              /* remove padding base */
+    padding: 0;
     overflow: hidden;
     border-radius: 4px;
-    min-height: clamp(340px, 40vw, 520px);  /* altura cinematográfica */
+    /* Mais massa de imagem = mais atmosfera = mais premium */
+    min-height: clamp(380px, 42vw, 560px);
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;              /* empurra conteúdo ao fundo */
+    justify-content: flex-end;
 }
 
 /* Desativa o lift genérico — card full-bleed não levanta */
@@ -1385,8 +1386,8 @@ html, body {
 .s2-cinema-content {
     position: relative;
     z-index: 3;
-    /* White space generoso: 4rem esquerda garante respiro editorial */
-    padding: 0 2rem 3rem 4rem;
+    /* 4rem esquerda + bottom generoso: conteúdo flutua com dignidade */
+    padding: 0 2rem clamp(3rem, 4.5vw, 4.5rem) 4rem;
 }
 
 /* Número: presença sobre o escuro, bloco compacto */
@@ -1407,9 +1408,9 @@ html, body {
     opacity: 1;
 }
 
-/* Título: sombra forte garante legibilidade sobre qualquer frame da imagem */
+/* Título: hierarquia clara entre título e descrição */
 .s2-diff-item--cinematic .s2-diff-title {
-    margin-bottom: 0.65rem;
+    margin-bottom: 1rem;
     text-shadow:
         0 1px 18px rgba(0, 0, 0, 0.75),
         0 0  40px rgba(0, 0, 0, 0.30);
@@ -1433,10 +1434,10 @@ html, body {
 /* ── Responsivo: Tablet ── */
 @media screen and (max-width: 1024px) {
     .s2-diff-item--cinematic {
-        min-height: clamp(280px, 50vw, 420px);
+        min-height: clamp(300px, 52vw, 440px);
     }
     .s2-cinema-content {
-        padding: 0 2rem 2.5rem 3rem;
+        padding: 0 2rem 3rem 3rem;
     }
     .s2-cinema-content--inner {
         padding-left: 3rem;
@@ -1445,12 +1446,15 @@ html, body {
 
 /* ── Responsivo: Mobile ── */
 @media screen and (max-width: 860px) {
+    .s2-diff-grid {
+        gap: 8px; /* gap vertical entre cards empilhados */
+    }
     .s2-diff-item--cinematic {
-        min-height: clamp(260px, 58vw, 380px);
+        min-height: clamp(280px, 60vw, 400px);
         border-radius: 3px;
     }
     .s2-cinema-content {
-        padding: 0 1.5rem 2.25rem 2.5rem;
+        padding: 0 1.5rem 2.75rem 2.5rem;
     }
     .s2-cinema-content--inner {
         padding-left: 2.5rem;
@@ -1459,7 +1463,13 @@ html, body {
 
 @media screen and (max-width: 480px) {
     .s2-diff-item--cinematic {
-        min-height: 72vw;
+        min-height: 74vw;
+    }
+    .s2-cinema-content {
+        padding: 0 1.25rem 2.5rem 2rem;
+    }
+    .s2-cinema-content--inner {
+        padding-left: 2rem;
     }
 }
 
