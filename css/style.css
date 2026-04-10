@@ -1216,6 +1216,138 @@ html, body {
 }
 .s2-diff-item:hover .s2-diff-line { width: 100%; }
 
+/* =================================================================
+   CARD CINEMÁTICO — Escuta Ativa
+   A imagem deixa de ser elemento e vira o ambiente do card.
+   Galeria como background dinâmico + conteúdo sobreposto.
+================================================================= */
+
+/* ── Container do card cinemático ── */
+.s2-diff-item--cinematic {
+    padding: 0;                              /* remove padding base */
+    overflow: hidden;
+    border-radius: 4px;
+    min-height: clamp(340px, 40vw, 520px);  /* altura cinematográfica */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;              /* empurra conteúdo ao fundo */
+}
+
+/* Desativa o lift genérico — card full-bleed não levanta */
+.s2-diff-item--cinematic:hover {
+    transform: none;
+}
+
+/* ── Cinema BG: camada absoluta de fundo ── */
+.s2-cinema-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+/* Slides: herdam .s2-gallery-slide (opacity crossfade + Ken Burns) */
+/* Override pontuais para o contexto de background full-card */
+.s2-cinema-bg .s2-gallery-slide img {
+    object-position: center 20%;
+    /* Ligeiramente mais brilhante — overlay faz o escurecimento seletivo */
+    filter: brightness(0.88) saturate(1.12) contrast(1.05);
+}
+
+/* ── Overlay: gradiente de legibilidade ── */
+/* Transparente no topo, sólido na base onde o texto vive */
+.s2-cinema-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(5, 5, 5, 0.04)  0%,
+            rgba(5, 5, 5, 0.10)  20%,
+            rgba(5, 5, 5, 0.40)  52%,
+            rgba(5, 5, 5, 0.84)  76%,
+            rgba(5, 5, 5, 0.97) 100%
+        ),
+        linear-gradient(
+            to right,
+            rgba(5, 5, 5, 0.12) 0%,
+            transparent 22%,
+            transparent 78%,
+            rgba(5, 5, 5, 0.12) 100%
+        );
+    pointer-events: none;
+}
+
+/* ── Conteúdo sobreposto ── */
+.s2-cinema-content {
+    position: relative;
+    z-index: 3;
+    padding: 0 3rem 2.75rem 0; /* mesmo padding-right do card original */
+}
+
+/* Número: mais visível sobre o escuro */
+.s2-diff-item--cinematic .s2-diff-num {
+    -webkit-text-stroke: 1px rgba(139, 115, 85, 0.28);
+}
+.s2-diff-item--cinematic:hover .s2-diff-num {
+    -webkit-text-stroke: 1px rgba(139, 115, 85, 0.65);
+}
+
+/* Ícone SVG */
+.s2-diff-item--cinematic .s2-diff-icon {
+    opacity: 0.6;
+}
+.s2-diff-item--cinematic:hover .s2-diff-icon {
+    opacity: 1;
+}
+
+/* Texto com micro text-shadow para legibilidade garantida */
+.s2-diff-item--cinematic .s2-diff-title {
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.55);
+}
+.s2-diff-item--cinematic .s2-diff-desc {
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Barra de progresso: z-index acima do overlay e conteúdo */
+.s2-diff-item--cinematic .s2-gallery-progress {
+    z-index: 4;
+}
+
+/* Linha animada de acabamento: z-index máximo — passa sobre a barra no hover */
+.s2-diff-item--cinematic .s2-diff-line {
+    z-index: 5;
+}
+
+/* ── Responsivo: Tablet ── */
+@media screen and (max-width: 1024px) {
+    .s2-diff-item--cinematic {
+        min-height: clamp(280px, 50vw, 420px);
+    }
+    .s2-cinema-content {
+        padding: 0 0 2.5rem;
+    }
+}
+
+/* ── Responsivo: Mobile ── */
+@media screen and (max-width: 860px) {
+    .s2-diff-item--cinematic {
+        min-height: clamp(260px, 58vw, 380px);
+        border-radius: 3px;
+        /* No mobile: card é empilhado na grid (1 col) — sem border-top especial */
+    }
+    .s2-cinema-content {
+        padding: 0 0 2.25rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .s2-diff-item--cinematic {
+        min-height: 72vw;
+    }
+}
+
 /* ── CTA Strip ── */
 .s2-cta-strip {
     border-top: 1px solid var(--color-border);
@@ -1497,13 +1629,17 @@ html, body {
 }
 
 /* ── Cursores semânticos — UX implícita sem setas visuais ── */
-/* JS atribui [data-cursor] conforme a zona de hover */
-.s2-microgallery[data-cursor="prev"] { cursor: w-resize; }
-.s2-microgallery[data-cursor="next"] { cursor: e-resize; }
+/* JS atribui [data-cursor] no elemento com data-gallery="escuta" */
+.s2-microgallery[data-cursor="prev"],
+.s2-diff-item--cinematic[data-cursor="prev"] { cursor: w-resize; }
+
+.s2-microgallery[data-cursor="next"],
+.s2-diff-item--cinematic[data-cursor="next"] { cursor: e-resize; }
 
 /* Mobile: sem hover disponível, cursor padrão */
 @media (hover: none) {
-    .s2-microgallery { cursor: default !important; }
+    .s2-microgallery,
+    .s2-diff-item--cinematic { cursor: default !important; }
 }
 
 /* ── Responsivo: Tablet ── */

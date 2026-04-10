@@ -207,48 +207,55 @@
           </div>
 
           <div class="s2-diff-grid">
-            <div class="s2-diff-item" data-s2-anim="d1">
-              <span class="s2-diff-num" aria-hidden="true">01</span>
-              <svg class="s2-diff-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="18" cy="14" r="7"/><path d="M10 28c0-4.4 3.6-8 8-8s8 3.6 8 8"/><line x1="18" y1="2" x2="18" y2="5"/><line x1="6.2" y1="6.2" x2="8.3" y2="8.3"/>
-              </svg>
-              <h3 class="s2-diff-title">Escuta Ativa</h3>
+            <!-- Card 01 — Cinematic: galeria como ambiente visual de fundo -->
+            <div class="s2-diff-item s2-diff-item--cinematic" data-s2-anim="d1" data-gallery="escuta" tabindex="0" role="group" aria-label="Diferencial 01: Escuta Ativa">
 
-              <!-- Microgaleria Editorial — apoio visual ao princípio de Escuta Ativa -->
-              <div class="s2-microgallery" aria-label="Registro visual do atendimento" data-gallery="escuta" role="region" tabindex="0">
-                <div class="s2-gallery-track">
-                  <div class="s2-gallery-slide s2-gallery-active">
-                    <img src="images/gparq-cliente1.jpg" alt="Momento de escuta com cliente" loading="lazy" draggable="false">
-                  </div>
-                  <div class="s2-gallery-slide">
-                    <img src="images/gparq2-cliente1.jpg" alt="Consultoria personalizada" loading="lazy" draggable="false">
-                  </div>
-                  <div class="s2-gallery-slide">
-                    <img src="images/gparq3-cliente1.jpg" alt="Visita ao espaço do cliente" loading="lazy" draggable="false">
-                  </div>
-                  <div class="s2-gallery-slide">
-                    <img src="images/gparq4-cliente1.jpg" alt="Projeto em desenvolvimento" loading="lazy" draggable="false">
-                  </div>
-                  <div class="s2-gallery-slide">
-                    <img src="images/gparq5-cliente1.jpg" alt="Detalhes do atendimento" loading="lazy" draggable="false">
-                  </div>
-                  <div class="s2-gallery-slide">
-                    <img src="images/gparq6-cliente1.jpg" alt="Refinamento do projeto" loading="lazy" draggable="false">
-                  </div>
-                  <div class="s2-gallery-slide">
-                    <img src="images/gparq7-cliente1.jpg" alt="Entrega do projeto" loading="lazy" draggable="false">
-                  </div>
+              <!-- ── Cinema BG: slides como camada absoluta de fundo ── -->
+              <div class="s2-cinema-bg" aria-hidden="true">
+                <div class="s2-gallery-slide s2-gallery-active">
+                  <img src="images/gparq-cliente1.jpg" alt="" loading="lazy" draggable="false">
                 </div>
-                <!-- Indicador de progresso linear — substitui dots e setas -->
-                <div class="s2-gallery-progress" aria-hidden="true">
-                  <div class="s2-gallery-progress-fill"></div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq2-cliente1.jpg" alt="" loading="lazy" draggable="false">
                 </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq3-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq4-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq5-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq6-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq7-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <!-- Overlay gradiente: legibilidade do texto sobre a imagem -->
+                <div class="s2-cinema-overlay" aria-hidden="true"></div>
               </div>
 
-              <p class="s2-diff-desc">
-                Cada projeto começa com você. Sua rotina, seus valores, seu modo de
-                habitar. Só depois do entendimento profundo é que criamos — nunca antes.
-              </p>
+              <!-- ── Conteúdo sobreposto — flutua sobre a imagem ── -->
+              <div class="s2-cinema-content">
+                <span class="s2-diff-num" aria-hidden="true">01</span>
+                <svg class="s2-diff-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="18" cy="14" r="7"/><path d="M10 28c0-4.4 3.6-8 8-8s8 3.6 8 8"/><line x1="18" y1="2" x2="18" y2="5"/><line x1="6.2" y1="6.2" x2="8.3" y2="8.3"/>
+                </svg>
+                <h3 class="s2-diff-title">Escuta Ativa</h3>
+                <p class="s2-diff-desc">
+                  Cada projeto começa com você. Sua rotina, seus valores, seu modo de
+                  habitar. Só depois do entendimento profundo é que criamos — nunca antes.
+                </p>
+              </div>
+
+              <!-- Barra de progresso — fora do cinema-bg para z-index previsível -->
+              <div class="s2-gallery-progress" aria-hidden="true">
+                <div class="s2-gallery-progress-fill"></div>
+              </div>
+
+              <!-- Linha animada de acabamento — preservada com z-index máximo -->
               <div class="s2-diff-line" aria-hidden="true"></div>
             </div>
 
