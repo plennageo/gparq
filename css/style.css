@@ -1352,9 +1352,9 @@ html, body {
     pointer-events: none;
 }
 
-/* Cards 02/03: padding-left igual ao base — régua única */
+/* Cards 02/03: padding-left idêntico ao base — régua única */
 .s2-cinema-content--inner {
-    padding-left: 2.5rem;
+    padding-left: 4rem;
 }
 /* ── Overlay base: gradiente de legibilidade ── */
 /* Topo completamente aberto — imagem respira. Base sólida onde o texto vive. */
@@ -1385,8 +1385,8 @@ html, body {
 .s2-cinema-content {
     position: relative;
     z-index: 3;
-    /* Padding simétrico: régua consistente em todos os cards */
-    padding: 0 2.5rem 2.75rem 2.5rem;
+    /* White space generoso: 4rem esquerda garante respiro editorial */
+    padding: 0 2rem 3rem 4rem;
 }
 
 /* Número: presença sobre o escuro, bloco compacto */
@@ -1436,7 +1436,10 @@ html, body {
         min-height: clamp(280px, 50vw, 420px);
     }
     .s2-cinema-content {
-        padding: 0 0 2.5rem;
+        padding: 0 2rem 2.5rem 3rem;
+    }
+    .s2-cinema-content--inner {
+        padding-left: 3rem;
     }
 }
 
@@ -1445,10 +1448,12 @@ html, body {
     .s2-diff-item--cinematic {
         min-height: clamp(260px, 58vw, 380px);
         border-radius: 3px;
-        /* No mobile: card é empilhado na grid (1 col) — sem border-top especial */
     }
     .s2-cinema-content {
-        padding: 0 0 2.25rem;
+        padding: 0 1.5rem 2.25rem 2.5rem;
+    }
+    .s2-cinema-content--inner {
+        padding-left: 2.5rem;
     }
 }
 
