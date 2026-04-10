@@ -61,12 +61,12 @@ document.addEventListener("DOMContentLoaded", () => {
         s2Targets.forEach(el => el.classList.add('s2-visible'));
     }
 
-    // ── 5. Microgaleria Editorial — Escuta Ativa v2.0 ─────────────────────
+    // ── 5. Microgaleria Editorial — Sistema Genérico v2.1 ──────────────────
+    // Suporta múltiplas galerias via [data-gallery] — qualquer card pode virar galeria.
     // Crossfade Cinematográfico + Ken Burns + Progress Line
     // Sem setas visíveis. Sem dots. Apenas sensação.
     // Vanilla JS | Zero deps
-    const initMicrogallery = () => {
-        const gallery      = document.querySelector('[data-gallery="escuta"]');
+    const initMicrogallery = (gallery) => {
         if (!gallery) return;
 
         const slides       = gallery.querySelectorAll('.s2-gallery-slide');
@@ -182,7 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    initMicrogallery();
+    // Inicializa todas as galerias existentes na página
+    document.querySelectorAll('[data-gallery]').forEach(g => initMicrogallery(g));
 
 });
 

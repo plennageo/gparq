@@ -260,13 +260,32 @@
               <div class="s2-diff-line" aria-hidden="true"></div>
             </div>
 
-            <!-- Card 02 — Variação cinemática: imagem estática como ambiente -->
-            <div class="s2-diff-item s2-diff-item--cinematic" data-s2-anim="d2">
+            <!-- Card 02 — Galeria cinemática: mesmo sistema do card 01 -->
+            <div class="s2-diff-item s2-diff-item--cinematic" data-s2-anim="d2" data-gallery="autoria" tabindex="0"
+              role="group" aria-label="Diferencial 02: Autoria Real">
+
+              <!-- ── Cinema BG: slides como camada absoluta de fundo ── -->
               <div class="s2-cinema-bg" aria-hidden="true">
-                <img class="s2-cinema-static-img" src="images/gparq9-cliente1.jpg" alt="" loading="lazy"
-                  draggable="false">
-                <div class="s2-cinema-overlay s2-cinema-overlay--02"></div>
+                <div class="s2-gallery-slide s2-gallery-active">
+                  <img src="images/gparq8-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq9-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq10-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq11-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq12-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <!-- Overlay gradiente com toque neutro — variante 02 -->
+                <div class="s2-cinema-overlay s2-cinema-overlay--02" aria-hidden="true"></div>
               </div>
+
+              <!-- ── Conteúdo sobreposto — flutua sobre a imagem ── -->
               <div class="s2-cinema-content s2-cinema-content--inner">
                 <span class="s2-diff-num" aria-hidden="true">02</span>
                 <svg class="s2-diff-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.2"
@@ -282,6 +301,13 @@
                   repete
                 </p>
               </div>
+
+              <!-- Barra de progresso — fora do cinema-bg para z-index previsível -->
+              <div class="s2-gallery-progress" aria-hidden="true">
+                <div class="s2-gallery-progress-fill"></div>
+              </div>
+
+              <!-- Linha animada de acabamento -->
               <div class="s2-diff-line" aria-hidden="true"></div>
             </div>
 
