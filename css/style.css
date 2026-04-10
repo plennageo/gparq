@@ -1256,9 +1256,19 @@ html, body {
 /* Slides: herdam .s2-gallery-slide (opacity crossfade + Ken Burns) */
 /* Override pontuais para o contexto de background full-card */
 .s2-cinema-bg .s2-gallery-slide img {
-    object-position: center 20%;
-    /* Ligeiramente mais brilhante — overlay faz o escurecimento seletivo */
-    filter: brightness(0.88) saturate(1.12) contrast(1.05);
+    object-position: center 22%;
+    /* Imagem com boa presença visual — overlay faz o escurecimento seletivo */
+    filter: brightness(0.92) saturate(1.10) contrast(1.05);
+}
+
+/* Ken Burns específico para o contexto cinemático: mais brilhante que a galeria padrão */
+.s2-diff-item--cinematic .s2-gallery-slide.s2-gallery-active img {
+    animation: s2-ken-burns-cinema 9s ease-in-out forwards;
+}
+
+@keyframes s2-ken-burns-cinema {
+    0%   { transform: scale(1.0);   filter: brightness(0.92) saturate(1.10) contrast(1.05); }
+    100% { transform: scale(1.052); filter: brightness(0.88) saturate(1.12) contrast(1.06); }
 }
 
 /* ── Imagem estática cinemática (cards 02 e 03) ── */
@@ -1270,7 +1280,7 @@ html, body {
     object-fit: cover;
     object-position: center 22%;
     display: block;
-    filter: brightness(0.86) saturate(1.1) contrast(1.05);
+    filter: brightness(0.93) saturate(1.08) contrast(1.05);
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
@@ -1291,64 +1301,63 @@ html, body {
 @keyframes s2-ken-burns-breathe {
     from {
         transform: scale(1.0);
-        filter: brightness(0.86) saturate(1.10) contrast(1.05);
+        filter: brightness(0.93) saturate(1.08) contrast(1.05);
     }
     to {
         transform: scale(1.055);
-        filter: brightness(0.83) saturate(1.13) contrast(1.06);
+        filter: brightness(0.90) saturate(1.10) contrast(1.06);
     }
 }
 
 /* ── Overlays com tonações variadas por card ── */
-/* 02 — Autoria Real: toque levemente mais neutro, imagem respira mais no topo */
+/* 02 — Autoria Real: topo totalmente aberto, imagem respira plenamente */
 .s2-cinema-overlay--02 {
     background:
         linear-gradient(
             to bottom,
-            rgba(5, 5, 5, 0.02)  0%,
-            rgba(5, 5, 5, 0.08)  18%,
-            rgba(5, 5, 5, 0.38)  50%,
-            rgba(5, 5, 5, 0.80)  74%,
-            rgba(5, 5, 5, 0.96) 100%
+            rgba(5, 5, 5, 0.00)  0%,
+            rgba(5, 5, 5, 0.05)  16%,
+            rgba(5, 5, 5, 0.20)  42%,
+            rgba(5, 5, 5, 0.70)  70%,
+            rgba(5, 5, 5, 0.94) 100%
         ),
         linear-gradient(
             to right,
-            rgba(5, 5, 5, 0.1) 0%,
-            transparent 20%,
-            transparent 80%,
-            rgba(5, 5, 5, 0.1) 100%
+            rgba(5, 5, 5, 0.08) 0%,
+            transparent 18%,
+            transparent 82%,
+            rgba(5, 5, 5, 0.08) 100%
         );
     pointer-events: none;
 }
 
-/* 03 — Entrega sem Fricção: vela sand muito sutil — remete a calor e conclusão */
+/* 03 — Entrega sem Fricção: toque quente/areia, topo respira */
 .s2-cinema-overlay--03 {
     background:
         linear-gradient(
             to bottom,
-            rgba(5, 5, 5, 0.03)  0%,
-            rgba(8, 6, 4, 0.10)  18%,
-            rgba(10, 7, 4, 0.42)  50%,
-            rgba(5, 4, 2, 0.84)  76%,
-            rgba(5, 5, 5, 0.97) 100%
+            rgba(5, 5, 5, 0.00)  0%,
+            rgba(6, 5, 3, 0.05)  15%,
+            rgba(8, 6, 4, 0.20)  42%,
+            rgba(5, 4, 2, 0.72)  70%,
+            rgba(5, 5, 5, 0.94) 100%
         ),
         linear-gradient(
             to right,
-            rgba(5, 5, 5, 0.12) 0%,
-            transparent 22%,
-            transparent 78%,
-            rgba(5, 5, 5, 0.12) 100%
+            rgba(5, 5, 5, 0.10) 0%,
+            transparent 20%,
+            transparent 80%,
+            rgba(5, 5, 5, 0.10) 100%
         );
     pointer-events: none;
 }
 
-/* ── Conteúdo interno com padding para cards não-primeiros ── */
-/* Card 01: padding-right = 3rem, card 02/03: adiciona padding-left */
+/* Cards 02/03: padding-left igual ao base — régua única */
 .s2-cinema-content--inner {
-    padding-left: 3rem;
+    padding-left: 2.5rem;
 }
 /* ── Overlay base: gradiente de legibilidade ── */
-/* Transparente no topo, sólido na base onde o texto vive */
+/* Topo completamente aberto — imagem respira. Base sólida onde o texto vive. */
 .s2-cinema-overlay {
     position: absolute;
     inset: 0;
@@ -1356,18 +1365,18 @@ html, body {
     background:
         linear-gradient(
             to bottom,
-            rgba(5, 5, 5, 0.04)  0%,
-            rgba(5, 5, 5, 0.10)  20%,
-            rgba(5, 5, 5, 0.40)  52%,
-            rgba(5, 5, 5, 0.84)  76%,
-            rgba(5, 5, 5, 0.97) 100%
+            rgba(5, 5, 5, 0.00)  0%,
+            rgba(5, 5, 5, 0.05)  15%,
+            rgba(5, 5, 5, 0.22)  42%,
+            rgba(5, 5, 5, 0.72)  70%,
+            rgba(5, 5, 5, 0.94) 100%
         ),
         linear-gradient(
             to right,
-            rgba(5, 5, 5, 0.12) 0%,
-            transparent 22%,
-            transparent 78%,
-            rgba(5, 5, 5, 0.12) 100%
+            rgba(5, 5, 5, 0.08) 0%,
+            transparent 18%,
+            transparent 82%,
+            rgba(5, 5, 5, 0.08) 100%
         );
     pointer-events: none;
 }
@@ -1376,31 +1385,39 @@ html, body {
 .s2-cinema-content {
     position: relative;
     z-index: 3;
-    padding: 0 3rem 2.75rem 0; /* mesmo padding-right do card original */
+    /* Padding simétrico: régua consistente em todos os cards */
+    padding: 0 2.5rem 2.75rem 2.5rem;
 }
 
-/* Número: mais visível sobre o escuro */
+/* Número: presença sobre o escuro, bloco compacto */
 .s2-diff-item--cinematic .s2-diff-num {
-    -webkit-text-stroke: 1px rgba(139, 115, 85, 0.28);
+    -webkit-text-stroke: 1px rgba(139, 115, 85, 0.38);
+    margin-bottom: 1rem;
 }
 .s2-diff-item--cinematic:hover .s2-diff-num {
-    -webkit-text-stroke: 1px rgba(139, 115, 85, 0.65);
+    -webkit-text-stroke: 1px rgba(139, 115, 85, 0.70);
 }
 
-/* Ícone SVG */
+/* Ícone SVG: compacto dentro do bloco cinemático */
 .s2-diff-item--cinematic .s2-diff-icon {
-    opacity: 0.6;
+    opacity: 0.65;
+    margin-bottom: 1rem;
 }
 .s2-diff-item--cinematic:hover .s2-diff-icon {
     opacity: 1;
 }
 
-/* Texto com micro text-shadow para legibilidade garantida */
+/* Título: sombra forte garante legibilidade sobre qualquer frame da imagem */
 .s2-diff-item--cinematic .s2-diff-title {
-    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.55);
+    margin-bottom: 0.65rem;
+    text-shadow:
+        0 1px 18px rgba(0, 0, 0, 0.75),
+        0 0  40px rgba(0, 0, 0, 0.30);
 }
+
+/* Descrição: sombra difusa para garantia de leitura */
 .s2-diff-item--cinematic .s2-diff-desc {
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.70);
 }
 
 /* Barra de progresso: z-index acima do overlay e conteúdo */
