@@ -61,76 +61,90 @@ document.addEventListener("DOMContentLoaded", () => {
         s2Targets.forEach(el => el.classList.add('s2-visible'));
     }
 
-    // ── 5. Microgaleria Editorial — Escuta Ativa ──────────────────────────
-    // Crossfade autoplay + pausa no hover + swipe mobile + teclado
-    // Vanilla JS | Zero deps | Performance: requestAnimationFrame-aware
+    // ── 5. Microgaleria Editorial — Escuta Ativa v2.0 ─────────────────────
+    // Crossfade Cinematográfico + Ken Burns + Progress Line
+    // Sem setas visíveis. Sem dots. Apenas sensação.
+    // Vanilla JS | Zero deps
     const initMicrogallery = () => {
-        const gallery = document.querySelector('[data-gallery="escuta"]');
+        const gallery      = document.querySelector('[data-gallery="escuta"]');
         if (!gallery) return;
 
-        const slides  = gallery.querySelectorAll('.s2-gallery-slide');
-        const dots    = gallery.querySelectorAll('.s2-gallery-dot');
-        const prevBtn = gallery.querySelector('.s2-gallery-prev');
-        const nextBtn = gallery.querySelector('.s2-gallery-next');
+        const slides       = gallery.querySelectorAll('.s2-gallery-slide');
+        const progressFill = gallery.querySelector('.s2-gallery-progress-fill');
 
         if (!slides.length) return;
 
-        let current  = 0;
-        let timer    = null;
-        let paused   = false;
-        const TOTAL  = slides.length;
-        const DELAY  = 4500; // 4.5s — lento, sofisticado
+        let current = 0;
+        let timer   = null;
+        let paused  = false;
+        const TOTAL = slides.length;
+        const DELAY = 4500; // 4.5s — ritmo lento e sofisticado
 
-        /* Transição entre slides — somente opacity */
+        /* ── Crossfade: troca de slide por opacity ── */
         const goTo = (index) => {
             slides[current].classList.remove('s2-gallery-active');
-            dots[current]?.classList.remove('s2-dot-active');
             current = ((index % TOTAL) + TOTAL) % TOTAL;
             slides[current].classList.add('s2-gallery-active');
-            dots[current]?.classList.add('s2-dot-active');
+            resetProgress();
         };
 
-        /* Gerenciamento do autoplay */
+        /* ── Progress bar: reinicia animação CSS via force-reflow ── */
+        const resetProgress = () => {
+            if (!progressFill) return;
+            progressFill.classList.remove('s2-progress-active');
+            void progressFill.offsetWidth; // força reflow — reinicia a animation
+            if (!paused) progressFill.classList.add('s2-progress-active');
+        };
+
+        /* ── Autoplay ── */
         const startPlay = () => {
             if (timer) clearInterval(timer);
             timer = setInterval(() => {
                 if (!paused) goTo(current + 1);
             }, DELAY);
+            resetProgress();
         };
 
         const stopPlay = () => {
             if (timer) { clearInterval(timer); timer = null; }
+            if (progressFill) progressFill.classList.remove('s2-progress-active');
         };
 
-        // Inicia autoplay
+        // Inicia
         startPlay();
 
-        /* Setas */
-        prevBtn?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            goTo(current - 1);
-            startPlay(); // reseta o timer
+        /* ── Cursor semântico por zona de clique ── */
+        /* Metade esquerda = prev, metade direita = next — sem setas visíveis */
+        gallery.addEventListener('mousemove', (e) => {
+            const { left, width } = gallery.getBoundingClientRect();
+            const zone = (e.clientX - left) / width < 0.5 ? 'prev' : 'next';
+            gallery.setAttribute('data-cursor', zone);
         });
 
-        nextBtn?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            goTo(current + 1);
+        gallery.addEventListener('mouseleave', () => {
+            gallery.removeAttribute('data-cursor');
+        });
+
+        /* ── Click: zona esquerda = anterior, direita = próxima ── */
+        gallery.addEventListener('click', (e) => {
+            const { left, width } = gallery.getBoundingClientRect();
+            const goNext = (e.clientX - left) / width >= 0.5;
+            goTo(goNext ? current + 1 : current - 1);
             startPlay();
         });
 
-        /* Dots */
-        dots.forEach((dot, i) => {
-            dot.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (i !== current) { goTo(i); startPlay(); }
-            });
+        /* ── Pausa no hover — suspende timer e progresso visual ── */
+        gallery.addEventListener('mouseenter', () => {
+            paused = true;
+            if (progressFill) progressFill.classList.remove('s2-progress-active');
         });
 
-        /* Pausa no hover — desktop */
-        gallery.addEventListener('mouseenter', () => { paused = true;  });
-        gallery.addEventListener('mouseleave', () => { paused = false; });
+        gallery.addEventListener('mouseleave', () => {
+            paused = false;
+            startPlay();
+        });
 
-        /* Touch / Swipe — mobile */
+        /* ── Touch / Swipe — mobile ── */
         let touchX = 0;
         let touchY = 0;
 
@@ -142,30 +156,26 @@ document.addEventListener("DOMContentLoaded", () => {
         gallery.addEventListener('touchend', (e) => {
             const dx = e.changedTouches[0].screenX - touchX;
             const dy = e.changedTouches[0].screenY - touchY;
-            // Só responde a swipes predominantemente horizontais (> 40px)
+            // Só swipes predominantemente horizontais (> 40px)
             if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
                 goTo(dx < 0 ? current + 1 : current - 1);
                 startPlay();
             }
         }, { passive: true });
 
-        /* Teclado — acessibilidade */
-        gallery.setAttribute('tabindex', '0');
+        /* ── Teclado — acessibilidade ── */
         gallery.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') { goTo(current + 1); startPlay(); }
             if (e.key === 'ArrowLeft')  { goTo(current - 1); startPlay(); }
         });
 
-        /* IntersectionObserver — pausa quando fora do viewport
-           Economiza recursos e evita troca invisível de imagens */
+        /* ── IntersectionObserver: pausa fora do viewport ── */
+        /* Economiza GPU e evita Ken Burns invisível */
         if ('IntersectionObserver' in window) {
             const io = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        startPlay();
-                    } else {
-                        stopPlay();
-                    }
+                    if (entry.isIntersecting) { startPlay(); }
+                    else                       { stopPlay();  }
                 });
             }, { threshold: 0.25 });
             io.observe(gallery);
