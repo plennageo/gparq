@@ -311,13 +311,29 @@
               <div class="s2-diff-line" aria-hidden="true"></div>
             </div>
 
-            <!-- Card 03 — Variação cinemática: imagem estática como ambiente -->
-            <div class="s2-diff-item s2-diff-item--cinematic" data-s2-anim="d3">
+            <!-- Card 03 — Galeria cinemática: mesmo sistema dos cards 01 e 02 -->
+            <div class="s2-diff-item s2-diff-item--cinematic" data-s2-anim="d3" data-gallery="entrega" tabindex="0"
+              role="group" aria-label="Diferencial 03: Entrega sem Fricção">
+
+              <!-- ── Cinema BG: slides como camada absoluta de fundo ── -->
               <div class="s2-cinema-bg" aria-hidden="true">
-                <img class="s2-cinema-static-img s2-cinema-static-img--03" src="images/gparq12-cliente1.jpg" alt=""
-                  loading="lazy" draggable="false">
-                <div class="s2-cinema-overlay s2-cinema-overlay--03"></div>
+                <div class="s2-gallery-slide s2-gallery-active">
+                  <img src="images/gparq13-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq14-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq15-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <div class="s2-gallery-slide">
+                  <img src="images/gparq16-cliente1.jpg" alt="" loading="lazy" draggable="false">
+                </div>
+                <!-- Overlay gradiente com toque quente — variante 03 -->
+                <div class="s2-cinema-overlay s2-cinema-overlay--03" aria-hidden="true"></div>
               </div>
+
+              <!-- ── Conteúdo sobreposto — flutua sobre a imagem ── -->
               <div class="s2-cinema-content s2-cinema-content--inner">
                 <span class="s2-diff-num" aria-hidden="true">03</span>
                 <svg class="s2-diff-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.2"
@@ -330,6 +346,13 @@
                   Conduzimos cada etapa com clareza e rigor, para que o processo seja leve, seguro e bem resolvido.
                 </p>
               </div>
+
+              <!-- Barra de progresso — fora do cinema-bg para z-index previsível -->
+              <div class="s2-gallery-progress" aria-hidden="true">
+                <div class="s2-gallery-progress-fill"></div>
+              </div>
+
+              <!-- Linha animada de acabamento -->
               <div class="s2-diff-line" aria-hidden="true"></div>
             </div>
           </div>
