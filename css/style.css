@@ -361,22 +361,21 @@ html, body {
     pointer-events: none;
 }
 
-/* Camada 2: Toque cinematicógrafico quente — espelha o latão dos lustres */
+/* Camada 2: Toque quente sutil — sem mix-blend-mode (caro em compositing) */
 .editorial-warm-tint {
     position: absolute;
     inset: 0;
     background: linear-gradient(
         135deg,
         transparent 0%,
-        rgba(180, 140, 60, 0.06) 40%,
-        rgba(160, 120, 50, 0.12) 70%,
-        rgba(140, 100, 40, 0.08) 100%
+        rgba(180, 140, 60, 0.04) 40%,
+        rgba(160, 120, 50, 0.08) 70%,
+        rgba(140, 100, 40, 0.05) 100%
     );
-    mix-blend-mode: multiply;
     pointer-events: none;
 }
 
-/* Camada 3: Glow radial âmbar — brilho do centro da foto (lustre) */
+/* Camada 3: Glow radial — sem mix-blend-mode para reduzir stacking contexts */
 .editorial-glow {
     position: absolute;
     top: -20%;
@@ -384,12 +383,11 @@ html, body {
     width: 55vw;
     height: 80vw;
     background: radial-gradient(ellipse at center,
-        rgba(200, 160, 80, 0.12) 0%,
-        rgba(180, 140, 60, 0.06) 35%,
+        rgba(200, 160, 80, 0.08) 0%,
+        rgba(180, 140, 60, 0.04) 35%,
         transparent 65%
     );
     pointer-events: none;
-    mix-blend-mode: screen;
 }
 
 .editorial-container {
@@ -548,20 +546,28 @@ html, body {
     text-transform: uppercase;
 }
 
+/* box-shadow animation → transform/opacity via pseudo-element: zero repaint */
 .status-pulse {
     width: 6px;
     height: 6px;
     background-color: #4CAF50;
     border-radius: 50%;
     margin-right: 8px;
-    box-shadow: 0 0 0 rgba(76, 175, 80, 0.4);
-    animation: pulse-green 2s infinite;
+    position: relative;
+}
+
+.status-pulse::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: rgba(76, 175, 80, 0.35);
+    animation: pulse-green 2s ease-out infinite;
 }
 
 @keyframes pulse-green {
-    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+    0%   { transform: scale(0.7); opacity: 0.8; }
+    100% { transform: scale(2.4); opacity: 0; }
 }
 
 .editorial-badge-wrapper {
@@ -574,9 +580,9 @@ html, body {
 
 .floating-badge {
     position: relative;
-    background: rgba(15, 15, 15, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(15, 15, 15, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 100px;
     padding: 1rem 1.5rem;
@@ -618,9 +624,8 @@ html, body {
 }
 
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-5px); }
 }
 
 /* Scroll Indicator */
@@ -1066,8 +1071,10 @@ html, body {
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center 40%;
-    filter: brightness(0.72) saturate(1.1) contrast(1.06);
+    /* Simplificado: 1 filtro = menos compositing que 3 */
+    filter: brightness(0.72);
     transition: transform 12s ease;
+    will-change: transform;
 }
 .s2-image-panel:hover img { transform: scale(1.03); }
 .s2-big-number {
@@ -1090,9 +1097,9 @@ html, body {
     z-index: 5;
     display: flex;
     align-items: center;
-    background: rgba(8,8,8,0.72);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(8,8,8,0.80);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 100px;
     padding: 1rem 1.5rem;
@@ -1239,6 +1246,10 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    /* contain: isola o layout do card — browser não propaga cálculos para fora */
+    contain: layout paint;
+    /* isolation: garante stacking context próprio — evita compositing cross-card */
+    isolation: isolate;
 }
 
 /* Desativa o lift genérico — card full-bleed não levanta */
@@ -1258,8 +1269,9 @@ html, body {
 /* Override pontuais para o contexto de background full-card */
 .s2-cinema-bg .s2-gallery-slide img {
     object-position: center 22%;
-    /* Imagem com boa presença visual — overlay faz o escurecimento seletivo */
     filter: brightness(0.92) saturate(1.10) contrast(1.05);
+    /* GPU layer própria: Ken Burns roda no compositor sem tocar o main thread */
+    will-change: transform;
 }
 
 /* Ken Burns específico para o contexto cinemático: mais brilhante que a galeria padrão */
@@ -1267,9 +1279,11 @@ html, body {
     animation: s2-ken-burns-cinema 9s ease-in-out forwards;
 }
 
+/* Ken Burns: apenas transform — filter estático no elemento, nunca animado */
+/* Animar filter + transform juntos divide o compositor em 2 passes por frame */
 @keyframes s2-ken-burns-cinema {
-    0%   { transform: scale(1.0);   filter: brightness(0.92) saturate(1.10) contrast(1.05); }
-    100% { transform: scale(1.052); filter: brightness(0.88) saturate(1.12) contrast(1.06); }
+    from { transform: scale(1.00); }
+    to   { transform: scale(1.052); }
 }
 
 /* ── Imagem estática cinemática (cards 02 e 03) ── */
@@ -1299,15 +1313,10 @@ html, body {
     animation-delay: -5s;
 }
 
+/* Ken Burns estático: só transform — GPU compositor thread, zero repaint */
 @keyframes s2-ken-burns-breathe {
-    from {
-        transform: scale(1.0);
-        filter: brightness(0.93) saturate(1.08) contrast(1.05);
-    }
-    to {
-        transform: scale(1.055);
-        filter: brightness(0.90) saturate(1.10) contrast(1.06);
-    }
+    from { transform: scale(1.0); }
+    to   { transform: scale(1.055); }
 }
 
 /* ── Overlays com tonações variadas por card ── */

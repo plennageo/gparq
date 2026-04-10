@@ -10,6 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Triggers CSS transition keyframes defined in style.css
     window.addEventListener('load', () => {
         document.body.classList.add('reveal');
+        // Libera GPU memory reservada pelo will-change após as animações terminarem
+        setTimeout(() => {
+            document.querySelectorAll('[data-animate]').forEach(el => {
+                el.style.willChange = 'auto';
+            });
+        }, 1600); // 1s transition + 0.4s max-delay + margem
     });
 
     // 2. Optimized Header Scroll
@@ -48,6 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('s2-visible');
                     s2Observer.unobserve(entry.target);
+                    // Libera will-change após transição de entrada (1.2s)
+                    setTimeout(() => {
+                        entry.target.style.willChange = 'auto';
+                    }, 1200);
                 }
             });
         }, {
