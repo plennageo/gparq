@@ -1161,6 +1161,8 @@ html, body {
 .s2-diff-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    /* Gap cinematográfico: separação sutil entre os painéis */
+    gap: 3px;
 }
 .s2-diff-item {
     padding: 2.5rem 3rem 2.5rem 0;
@@ -1170,6 +1172,11 @@ html, body {
 .s2-diff-item + .s2-diff-item {
     padding-left: 3rem;
     border-left: 1px solid var(--color-border);
+}
+/* Cards cinemáticos adjacentes: sem padding/border do template genérico */
+.s2-diff-item--cinematic + .s2-diff-item--cinematic {
+    padding: 0;
+    border-left: none;
 }
 .s2-diff-item:hover { transform: translateY(-4px); }
 .s2-diff-num {
@@ -1254,7 +1261,93 @@ html, body {
     filter: brightness(0.88) saturate(1.12) contrast(1.05);
 }
 
-/* ── Overlay: gradiente de legibilidade ── */
+/* ── Imagem estática cinemática (cards 02 e 03) ── */
+/* Mesma família do card 01, mas sem galeria JS.
+   Ken Burns CSS-only: respira organicamente sem controle externo. */
+.s2-cinema-static-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    display: block;
+    filter: brightness(0.86) saturate(1.1) contrast(1.05);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    transform-origin: center center;
+    /* Ken Burns infinito e alternado — respiro lento e orgânico */
+    animation: s2-ken-burns-breathe 14s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+/* Variação de ponto focal para card 03 */
+.s2-cinema-static-img--03 {
+    object-position: center 30%;
+    /* Ritmo ligeiramente diferente — evita sincronismo mecânico */
+    animation-duration: 16s;
+    animation-delay: -5s;
+}
+
+@keyframes s2-ken-burns-breathe {
+    from {
+        transform: scale(1.0);
+        filter: brightness(0.86) saturate(1.10) contrast(1.05);
+    }
+    to {
+        transform: scale(1.055);
+        filter: brightness(0.83) saturate(1.13) contrast(1.06);
+    }
+}
+
+/* ── Overlays com tonações variadas por card ── */
+/* 02 — Autoria Real: toque levemente mais neutro, imagem respira mais no topo */
+.s2-cinema-overlay--02 {
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(5, 5, 5, 0.02)  0%,
+            rgba(5, 5, 5, 0.08)  18%,
+            rgba(5, 5, 5, 0.38)  50%,
+            rgba(5, 5, 5, 0.80)  74%,
+            rgba(5, 5, 5, 0.96) 100%
+        ),
+        linear-gradient(
+            to right,
+            rgba(5, 5, 5, 0.1) 0%,
+            transparent 20%,
+            transparent 80%,
+            rgba(5, 5, 5, 0.1) 100%
+        );
+    pointer-events: none;
+}
+
+/* 03 — Entrega sem Fricção: vela sand muito sutil — remete a calor e conclusão */
+.s2-cinema-overlay--03 {
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(5, 5, 5, 0.03)  0%,
+            rgba(8, 6, 4, 0.10)  18%,
+            rgba(10, 7, 4, 0.42)  50%,
+            rgba(5, 4, 2, 0.84)  76%,
+            rgba(5, 5, 5, 0.97) 100%
+        ),
+        linear-gradient(
+            to right,
+            rgba(5, 5, 5, 0.12) 0%,
+            transparent 22%,
+            transparent 78%,
+            rgba(5, 5, 5, 0.12) 100%
+        );
+    pointer-events: none;
+}
+
+/* ── Conteúdo interno com padding para cards não-primeiros ── */
+/* Card 01: padding-right = 3rem, card 02/03: adiciona padding-left */
+.s2-cinema-content--inner {
+    padding-left: 3rem;
+}
+/* ── Overlay base: gradiente de legibilidade ── */
 /* Transparente no topo, sólido na base onde o texto vive */
 .s2-cinema-overlay {
     position: absolute;
